@@ -28,9 +28,7 @@ export function Indexer() {
       if (!response.ok) throw new Error(data.error || "Ingestion failed");
 
       setStatus("success");
-      setMessage(
-        `Successfully indexed "${data.title}" (${data.chunks} chunks)`,
-      );
+      setMessage(`Successfully indexed ${data.pages} pages!`);
       setUrl("");
 
       // Reset after 3 seconds

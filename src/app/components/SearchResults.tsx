@@ -9,7 +9,7 @@ interface SearchResult {
 interface SearchData {
   overview: string;
   results: SearchResult[];
-  knowledgePanel?: string;
+  knowledgePanel?: string | Record<string, unknown>;
 }
 
 interface SearchResultsProps {
@@ -108,8 +108,25 @@ export function SearchResults({
             <h2 className="text-xl font-bold text-zinc-100 mb-4 text-left">
               About
             </h2>
-            <div className="text-sm text-zinc-400 space-y-3 whitespace-pre-line leading-relaxed text-left">
-              {data.knowledgePanel}
+            <div className="text-sm text-zinc-400 space-y-4 whitespace-pre-line leading-relaxed text-left">
+              {typeof data.knowledgePanel === "string" ? (
+                data.knowledgePanel
+              ) : (
+                <div className="space-y-4">
+                  {Object.entries(data.knowledgePanel).map(([key, value]) => (
+                    <div key={key}>
+                      <div className="text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-1">
+                        {key.replace(/([A-Z])/g, " $1").trim()}
+                      </div>
+                      <div className="text-zinc-300">
+                        {typeof value === "object"
+                          ? JSON.stringify(value)
+                          : String(value)}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </div>

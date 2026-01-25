@@ -31,8 +31,9 @@ export async function POST(req: Request) {
         SELECT c.content, d.title, d.url, (c.embedding <=> $1) as distance
         FROM chunks c
         JOIN documents d ON c.document_id = d.id
+        WHERE (c.embedding <=> $1) < 0.5
         ORDER BY distance ASC
-        LIMIT 3;
+        LIMIT 5;
       `,
         [vectorStr],
       );
