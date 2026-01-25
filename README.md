@@ -4,6 +4,17 @@
 
 LLMNet transforms your local LLMs into a structured search engine. It combines the power of local generative AI with a high-performance Vector Database (RAG) to provide instant, offline answers from your own knowledge base.
 
+<p align="center">
+  <img src="docs/screenshot-results.png" alt="LLMNet Results" width="800">
+</p>
+
+<details>
+<summary>Home Page - Screenshot</summary>
+<p align="center">
+  <img src="docs/screenshot-home.png" alt="LLMNet Home" width="800">
+</p>
+</details> 
+
 ---
 
 ### ✨ Key Features
