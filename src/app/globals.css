@@ -1,0 +1,10 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-primary: #6366f1;
+  --color-primary-hover: #818cf8;
+  --color-secondary: #22d3ee;
+  --color-accent: #d946ef;
+}
