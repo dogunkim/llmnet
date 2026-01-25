@@ -23,7 +23,7 @@ export async function POST(req: Request) {
       const visited = new Set<string>();
       const queue = [url];
       let pageCount = 0;
-      const MAX_PAGES = 10; // Basic limit to prevent infinite loops
+      const MAX_PAGES = Number(process.env.MAX_PAGES || 25);
 
       while (queue.length > 0 && pageCount < MAX_PAGES) {
         const currentUrl = queue.shift();
