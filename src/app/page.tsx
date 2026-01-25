@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useState } from "react";
+import { Indexer } from "./components/Indexer";
 import { Logo } from "./components/Logo";
 import { SearchInput } from "./components/SearchInput";
 import { SearchResults } from "./components/SearchResults";
@@ -175,6 +176,9 @@ export default function Home() {
                 🧠 AI Powered
               </span>
             </div>
+
+            {/* Indexer / RAG */}
+            <Indexer />
           </div>
 
           {/* Footer hint */}
