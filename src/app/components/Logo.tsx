@@ -17,7 +17,14 @@ export function Logo({ size = "md", showText = true }: LogoProps) {
   return (
     <div className="flex items-center gap-3">
       {/* Icon */}
-      <svg width={icon} height={icon} viewBox="0 0 64 64" fill="none">
+      <svg
+        width={icon}
+        height={icon}
+        viewBox="0 0 64 64"
+        fill="none"
+        role="img"
+        aria-label="LLMNet Logo"
+      >
         <defs>
           <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#6366f1" />

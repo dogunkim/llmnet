@@ -5,70 +5,89 @@ import { Logo } from "./components/Logo";
 import { SearchInput } from "./components/SearchInput";
 import { SearchResults } from "./components/SearchResults";
 
+interface SearchResult {
+  title: string;
+  url: string;
+  snippet: string;
+}
+
+interface SearchData {
+  overview: string;
+  results: SearchResult[];
+  knowledgePanel?: string;
+}
+
 export default function Home() {
   const [searchState, setSearchState] = useState<{
     query: string;
-    content: string;
+    data: SearchData | null;
     isSearching: boolean;
     hasSearched: boolean;
+    error: string | null;
   }>({
     query: "",
-    content: "",
+    data: null,
     isSearching: false,
     hasSearched: false,
+    error: null,
   });
 
   const handleSearch = useCallback(async (query: string) => {
     setSearchState({
       query,
-      content: "",
+      data: null,
       isSearching: true,
       hasSearched: true,
+      error: null,
     });
 
     try {
       const response = await fetch("/api/search", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          messages: [{ role: "user", content: query }],
-          model: process.env.NEXT_PUBLIC_MODEL || "null",
-        }),
+        body: query,
       });
 
       if (!response.ok) throw new Error("Search failed");
 
-      const reader = response.body?.getReader();
-      const decoder = new TextDecoder();
+      const data = await response.json();
 
-      if (!reader) throw new Error("No reader available");
-
-      let content = "";
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        content += decoder.decode(value, { stream: true });
-        setSearchState((prev) => ({ ...prev, content }));
-      }
-
-      setSearchState((prev) => ({ ...prev, isSearching: false }));
+      setSearchState((prev) => ({
+        ...prev,
+        data: data,
+        isSearching: false,
+      }));
     } catch (error) {
       console.error("Search error:", error);
       setSearchState((prev) => ({
         ...prev,
-        content:
+        error:
           "⚠️ An error occurred. Please ensure your local AI server is running at localhost:8888 and try again.",
         isSearching: false,
       }));
     }
   }, []);
 
+  const handleResultClick = useCallback(
+    (title: string) => {
+      const result = searchState.data?.results.find((r) => r.title === title);
+      if (result) {
+        const url = result.url.startsWith("http")
+          ? result.url
+          : `https://${result.url}`;
+        window.open(url, "_blank");
+      }
+    },
+    [searchState.data],
+  );
+
   const handleNewSearch = useCallback(() => {
     setSearchState({
       query: "",
-      content: "",
+      data: null,
       isSearching: false,
       hasSearched: false,
+      error: null,
     });
   }, []);
 
@@ -82,6 +101,7 @@ export default function Home() {
             <div className="max-w-5xl mx-auto px-4 py-4">
               <div className="flex items-center gap-6">
                 <button
+                  type="button"
                   onClick={handleNewSearch}
                   className="shrink-0 hover:opacity-80 transition-opacity"
                 >
@@ -101,11 +121,18 @@ export default function Home() {
 
           {/* Results */}
           <main className="max-w-4xl mx-auto px-4 py-8">
-            <SearchResults
-              query={searchState.query}
-              content={searchState.content}
-              isStreaming={searchState.isSearching}
-            />
+            {searchState.error ? (
+              <div className="p-8 bg-zinc-900/50 border border-zinc-800 rounded-2xl text-zinc-400 text-center">
+                {searchState.error}
+              </div>
+            ) : (
+              <SearchResults
+                query={searchState.query}
+                data={searchState.data}
+                isSearching={searchState.isSearching}
+                onResultClick={handleResultClick}
+              />
+            )}
           </main>
         </div>
       ) : (

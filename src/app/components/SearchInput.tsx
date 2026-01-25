@@ -51,6 +51,8 @@ export function SearchInput({
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
+            role="img"
+            aria-label="Search Icon"
           >
             <path
               strokeLinecap="round"
