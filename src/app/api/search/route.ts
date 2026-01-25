@@ -3,20 +3,54 @@ import { createOpenAICompatible } from "@ai-sdk/openai-compatible";
 import { generateText } from "ai";
 import { NextResponse } from "next/server";
 import { getCurrentTime } from "@/utils/currentTime";
+import pool from "@/utils/db";
+import { createEmbedding } from "@/utils/embeddings";
 import { SYSTEM_PROMPT } from "@/utils/system-prompts";
 
 const provider = createOpenAICompatible({
   name: "llmnet-provider",
   apiKey: process.env.API_KEY || "no-key-needed",
-  baseURL: process.env.BASE_URL || "http://192.168.0.124:8888/v1",
+  baseURL: process.env.API_BASE_URL || "http://192.168.0.124:8888/v1",
 });
 
 export async function POST(req: Request) {
   try {
     const query = await req.text();
-
     if (!query || query.trim() === "") {
       return NextResponse.json({ error: "No query provided" }, { status: 400 });
+    }
+
+    // 1. RAG: Search Vector DB
+    let ragContext = "";
+    try {
+      const embedding = await createEmbedding(query);
+      const vectorStr = `[${embedding.join(",")}]`;
+
+      const res = await pool.query(
+        `
+        SELECT c.content, d.title, d.url, (c.embedding <=> $1) as distance
+        FROM chunks c
+        JOIN documents d ON c.document_id = d.id
+        WHERE (c.embedding <=> $1) < 0.5
+        ORDER BY distance ASC
+        LIMIT 5;
+      `,
+        [vectorStr],
+      );
+
+      if (res.rows.length > 0) {
+        ragContext =
+          "\n\n### RETRIEVED LOCAL KNOWLEDGE\n" +
+          res.rows
+            .map(
+              (row) =>
+                `Source: ${row.title} (${row.url})\nContent: ${row.content}`,
+            )
+            .join("\n---\n");
+        console.log(`🔍 RAG: Found ${res.rows.length} relevant chunks`);
+      }
+    } catch (ragErr) {
+      console.error("RAG search failed (skipping):", ragErr);
     }
 
     const messages: { role: "user"; content: string }[] = [
@@ -25,7 +59,10 @@ export async function POST(req: Request) {
 
     const { text } = await generateText({
       model: provider("null"),
-      system: `${SYSTEM_PROMPT}\n\nCurrent time: ${getCurrentTime()}`,
+      system: `${SYSTEM_PROMPT}
+${ragContext}
+
+Current time: ${getCurrentTime()}`,
       messages: messages,
       stopSequences: ["</s>", "<|im_end|>", "<|eot_id|>"],
     });
@@ -34,15 +71,8 @@ export async function POST(req: Request) {
       throw new Error("Model returned empty text");
     }
 
-    // Advanced JSON extraction: find the first '{' and matching '}'
-    // This handles cases where the LLM adds text before/after the JSON
-    let jsonString = text.trim();
-    const firstBrace = jsonString.indexOf("{");
-    const lastBrace = jsonString.lastIndexOf("}");
-
-    if (firstBrace !== -1 && lastBrace !== -1 && lastBrace > firstBrace) {
-      jsonString = jsonString.substring(firstBrace, lastBrace + 1);
-    }
+    const jsonMatch = text.match(/\{[\s\S]*\}/);
+    const jsonString = jsonMatch ? jsonMatch[0] : text;
 
     try {
       const result = JSON.parse(jsonString);
@@ -52,33 +82,15 @@ export async function POST(req: Request) {
         knowledgePanel: result.knowledgePanel || null,
       });
     } catch (parseError) {
-      console.error(
-        "JSON Parse Error:",
+      console.warn(
+        "JSON Parse Error, returning raw text as overview:",
         parseError,
-        "Extracted string:",
-        jsonString,
       );
-
-      // If parsing fails, we try one more thing: clean common markdown issues
-      try {
-        const cleaned = jsonString
-          .replace(/```json/g, "")
-          .replace(/```/g, "")
-          .trim();
-        const secondTry = JSON.parse(cleaned);
-        return NextResponse.json({
-          overview: secondTry.overview || "No overview available.",
-          results: Array.isArray(secondTry.results) ? secondTry.results : [],
-          knowledgePanel: secondTry.knowledgePanel || null,
-        });
-      } catch {
-        // Absolute fallback: return text as overview
-        return NextResponse.json({
-          overview: text,
-          results: [],
-          knowledgePanel: null,
-        });
-      }
+      return NextResponse.json({
+        overview: text,
+        results: [],
+        knowledgePanel: null,
+      });
     }
   } catch (error) {
     const e = error as Error;

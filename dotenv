@@ -1,0 +1,14 @@
+DB_HOST=localhost
+DB_PORT=5432
+DB_USER=vectoruser
+DB_PASSWORD=vectorpass
+DB_NAME=vectordb
+
+API_KEY="no-key-needed"
+API_BASE_URL=http://192.168.0.124:8888/v1
+EMBEDDING_URL=http://192.168.0.124:8889/v1/embeddings
+EMBEDDING_MODEL="null"
+
+# RAG Settings (for crawler)
+CHUNK_SIZE=700 # 1000
+CHUNK_OVERLAP=150 # 200
