@@ -20,8 +20,11 @@ RUN apt-get remove -y build-essential git postgresql-server-dev-14 && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /pgvector
 
-# # Build Docker image
+## Build Docker image
 # docker build -t postgres-pgvector .
 
-# # Run container
+## Setup and run container
 # docker run -d --name postgres-vector-llmnet -p 5432:5432 postgres-pgvector
+
+## Run container
+# docker start postgres-vector-llmnet
